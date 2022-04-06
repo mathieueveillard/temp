@@ -1,27 +1,14 @@
-interface Fraction {
-  readonly numerator: number;
-  readonly denominator: number;
-}
+test("Can you make this work as expected?", function () {
+  const fns = [];
 
-function add(f1: Fraction, f2: Fraction): Fraction {
-  if (f1.denominator !== f2.denominator) {
-    // Not implemented yet, but that's not the point here
+  for (var i = 0; i < 4; i++) {
+    const fn = function () {
+      return i;
+    };
+    fns.push(fn);
   }
-  return {
-    numerator: f1.numerator + f2.numerator,
-    denominator: f1.denominator,
-  };
-}
 
-test("Adding fractions in an OOP paradigm", function () {
-  // GIVEN
-  const f1: Fraction = { numerator: 1, denominator: 3 };
-  const f2: Fraction = { numerator: 1, denominator: 3 };
-
-  // WHEN
-  const actual = add(f1, f2);
-
-  // THEN
-  const expected: Fraction = { numerator: 2, denominator: 3 };
-  expect(actual).toEqual(expected);
+  const actual = fns.map((fn) => fn());
+  // expect(actual).toEqual([4, 4, 4, 4]); // Actual behavior
+  expect(actual).toEqual([0, 1, 2, 3]); // Expected behavior
 });
