@@ -1,20 +1,8 @@
-test("Can you make this work as expected?", function () {
-  const fns = [];
+function isMultipleOf(of: number, i: number): boolean {
+  return i % of === 0;
+}
 
-  function createClosure(value: number) {
-    return function (): number {
-      return value;
-    };
-  }
-
-  for (var i = 0; i < 4; i++) {
-    const fn = createClosure(i);
-    fns.push(fn);
-  }
-
-  expect(fns[0]()).toEqual(0);
-  expect(fns[1]()).toEqual(1);
-  expect(fns[2]()).toEqual(2);
-  expect(fns[3]()).toEqual(3);
-  // expect(actual).toEqual([4, 4, 4, 4]); // Actual behavior
+test("Ok, but…", function () {
+  const actual = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].filter((i) => isMultipleOf(3, i));
+  expect(actual).toEqual([0, 3, 6, 9]);
 });
