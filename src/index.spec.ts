@@ -1,48 +1,81 @@
-test("Array.map", function () {
-  const array: number[] = [0, 1, 2, 3];
-  const increment = (n: number): number => n + 1;
-  expect(array.map(increment)).toEqual([1, 2, 3, 4]);
-});
+// atm(270); // 1 x 200€ bill, 1 x 50€ bill and 1 x 20€ bill
 
-test("Array.filter", function () {
-  const array: number[] = [0, 1, 2, 3];
-  const isOdd = (n: number): boolean => n % 2 === 1;
-  expect(array.filter(isOdd)).toEqual([1, 3]);
-});
+// type Bill = 10;
 
-test("Array.reduce", function () {
-  const array: number[] = [0, 1, 2, 3];
-  const sum = (accumulator: number, current: number): number => accumulator + current;
-  expect(array.reduce(sum)).toEqual(6);
-});
+const ALL_BILLS = [10, 20] as const;
 
-type MappingFunction<Input, Output> = (input: Input) => Output;
+type Bill = typeof ALL_BILLS[number];
 
-type Reducer<Accumulator, Current> = (acc: Accumulator, cur: Current) => Accumulator;
+type Withdrawal = Partial<Record<Bill, number>>;
 
-function map<Input, Output>(fn: MappingFunction<Input, Output>): Reducer<Output[], Input> {
-  return (acc, cur) => [...acc, fn(cur)];
+interface WithdrawalAccumulator {
+  withdrawal: Withdrawal;
+  remainingAmount: number;
 }
 
-test("Array.map rewritten with Array.reduce", function () {
-  const array: number[] = [0, 1, 2, 3];
-  const increment = (n: number): number => n + 1;
-  expect(array.reduce(map(increment), [])).toEqual([1, 2, 3, 4]);
-});
+const atm =
+  (availableBills: Bill[]) =>
+  (amount: number): Withdrawal => {
+    const initialAccumulator: WithdrawalAccumulator = {
+      withdrawal: {},
+      remainingAmount: amount,
+    };
 
-type FilterFunction<Input> = (input: Input) => boolean;
+    const { withdrawal } = availableBills.reduce<WithdrawalAccumulator>((acc, bill) => {
+      const remainingAmount = acc.remainingAmount % bill;
+      const numberOfBills = (acc.remainingAmount - remainingAmount) / bill;
+      return {
+        withdrawal: {
+          ...acc.withdrawal,
+          [bill]: numberOfBills,
+        },
+        remainingAmount,
+      };
+    }, initialAccumulator);
 
-function filter<Input>(fn: FilterFunction<Input>): Reducer<Input[], Input> {
-  return (acc, cur) => {
-    if (fn(cur)) {
-      return [...acc, cur];
-    }
-    return acc;
+    return withdrawal;
   };
-}
 
-test("Array.filter rewritten with Array.reduce", function () {
-  const array: number[] = [0, 1, 2, 3];
-  const isOdd = (n: number): boolean => n % 2 === 1;
-  expect(array.reduce(filter(isOdd), [])).toEqual([1, 3]);
+test("Withdraw one bill", function () {
+  const availableBills: Bill[] = [10];
+  expect(atm(availableBills)(10)).toEqual({
+    10: 1,
+  });
+});
+
+test("Withdraw one bill", function () {
+  const availableBills: Bill[] = [20];
+  expect(atm(availableBills)(20)).toEqual({
+    20: 1,
+  });
+});
+
+test("Withdraw many times the same bill", function () {
+  const availableBills: Bill[] = [10];
+  expect(atm(availableBills)(20)).toEqual({
+    10: 2,
+  });
+});
+
+test("Withdraw many different bills", function () {
+  const availableBills: Bill[] = [20, 10];
+  expect(atm(availableBills)(30)).toEqual({
+    10: 1,
+    20: 1,
+  });
+});
+
+// Todo: bills have to be sorted properly
+
+test("map, filter and reduce combined", function () {
+  const increment = (i) => i + 1;
+  const isEven = (i) => i % 2 === 0;
+  const sum = (acc, cur) => acc + cur;
+
+  const actual = [0, 1, 2, 3]
+    .map(increment) //
+    .filter(isEven)
+    .reduce(sum, 0);
+
+  expect(actual).toEqual(6);
 });
