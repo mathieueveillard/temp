@@ -1,23 +1,27 @@
-class Fraction {
-  constructor(public numerator: number, public denominator: number) {}
+interface Fraction {
+  readonly numerator: number;
+  readonly denominator: number;
+}
 
-  add(other: Fraction): void {
-    if (this.denominator !== other.denominator) {
-      // Not implemented yet, but that's not the point here
-    }
-    this.numerator += other.numerator;
+function add(f1: Fraction, f2: Fraction): Fraction {
+  if (f1.denominator !== f2.denominator) {
+    // Not implemented yet, but that's not the point here
   }
+  return {
+    numerator: f1.numerator + f2.numerator,
+    denominator: f1.denominator,
+  };
 }
 
 test("Adding fractions in an OOP paradigm", function () {
   // GIVEN
-  const f1 = new Fraction(1, 3);
-  const f2 = new Fraction(1, 3);
+  const f1: Fraction = { numerator: 1, denominator: 3 };
+  const f2: Fraction = { numerator: 1, denominator: 3 };
 
   // WHEN
-  f1.add(f2);
+  const actual = add(f1, f2);
 
   // THEN
-  const expected = new Fraction(2, 3);
-  expect(f1).toEqual(expected);
+  const expected: Fraction = { numerator: 2, denominator: 3 };
+  expect(actual).toEqual(expected);
 });
