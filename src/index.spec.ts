@@ -1,11 +1,23 @@
-// @ts-ignore see https://github.com/jest-community/jest-extended#setup
-import * as matchers from "jest-extended";
-expect.extend(matchers);
+class Fraction {
+  constructor(public numerator: number, public denominator: number) {}
 
-it("That's a test!", function () {
-  expect(1 + 1).toEqual(2);
-});
+  add(other: Fraction): void {
+    if (this.denominator !== other.denominator) {
+      // Not implemented yet, but that's not the point here
+    }
+    this.numerator += other.numerator;
+  }
+}
 
-it("jest-extended is included", function () {
-  expect([1, 0]).toIncludeSameMembers([0, 1]);
+test("Adding fractions in an OOP paradigm", function () {
+  // GIVEN
+  const f1 = new Fraction(1, 3);
+  const f2 = new Fraction(1, 3);
+
+  // WHEN
+  f1.add(f2);
+
+  // THEN
+  const expected = new Fraction(2, 3);
+  expect(f1).toEqual(expected);
 });
