@@ -1,26 +1,48 @@
-interface ProtoAverage {
-  sum: number;
-  count: number;
+test("Array.map", function () {
+  const array: number[] = [0, 1, 2, 3];
+  const increment = (n: number): number => n + 1;
+  expect(array.map(increment)).toEqual([1, 2, 3, 4]);
+});
+
+test("Array.filter", function () {
+  const array: number[] = [0, 1, 2, 3];
+  const isOdd = (n: number): boolean => n % 2 === 1;
+  expect(array.filter(isOdd)).toEqual([1, 3]);
+});
+
+test("Array.reduce", function () {
+  const array: number[] = [0, 1, 2, 3];
+  const sum = (accumulator: number, current: number): number => accumulator + current;
+  expect(array.reduce(sum)).toEqual(6);
+});
+
+type MappingFunction<Input, Output> = (input: Input) => Output;
+
+type Reducer<Accumulator, Current> = (acc: Accumulator, cur: Current) => Accumulator;
+
+function map<Input, Output>(fn: MappingFunction<Input, Output>): Reducer<Output[], Input> {
+  return (acc, cur) => [...acc, fn(cur)];
 }
 
-const initialProtoAverage: ProtoAverage = {
-  sum: 0,
-  count: 0,
-};
+test("Array.map rewritten with Array.reduce", function () {
+  const array: number[] = [0, 1, 2, 3];
+  const increment = (n: number): number => n + 1;
+  expect(array.reduce(map(increment), [])).toEqual([1, 2, 3, 4]);
+});
 
-const computeAverages = (array: number[]): number[] => {
-  return array
-    .reduce<ProtoAverage[]>((acc, cur) => {
-      const { sum, count } = acc[acc.length - 1] || initialProtoAverage;
-      const protoAverage: ProtoAverage = {
-        sum: sum + cur,
-        count: count + 1,
-      };
-      return [...acc, protoAverage];
-    }, [])
-    .map(({ sum, count }) => sum / count);
-};
+type FilterFunction<Input> = (input: Input) => boolean;
 
-test("computeAverages", function () {
-  expect(computeAverages([0, 1, 2, 3])).toEqual([0, 0.5, 1, 1.5]);
+function filter<Input>(fn: FilterFunction<Input>): Reducer<Input[], Input> {
+  return (acc, cur) => {
+    if (fn(cur)) {
+      return [...acc, cur];
+    }
+    return acc;
+  };
+}
+
+test("Array.filter rewritten with Array.reduce", function () {
+  const array: number[] = [0, 1, 2, 3];
+  const isOdd = (n: number): boolean => n % 2 === 1;
+  expect(array.reduce(filter(isOdd), [])).toEqual([1, 3]);
 });
