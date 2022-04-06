@@ -1,14 +1,9 @@
-// Curryfication
-// function isMultipleOf(of: number, i: number): boolean {
-//   return i % of === 0;
-// }
+test("Power 2", function () {
+  const actual = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].filter(toPower(2));
+  expect(actual).toEqual([0, 1, 4, 9, 16, 25, 36, 49, 64, 81]);
+});
 
-const isMultipleOf =
-  (of: number) =>
-  (i: number): boolean =>
-    i % of === 0;
-
-test("Ok, but…", function () {
-  const actual = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].filter(isMultipleOf(3));
-  expect(actual).toEqual([0, 3, 6, 9]);
+test("Power 3", function () {
+  const actual = [0, 1, 2, 3].filter(toPower(3));
+  expect(actual).toEqual([0, 1, 8, 27]);
 });
