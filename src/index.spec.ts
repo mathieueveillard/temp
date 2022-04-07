@@ -1,21 +1,21 @@
-type RandomGenerator = () => number; // between 0 and 1.
+import { DateTime } from "luxon";
 
-function binaryRandomGenerator(randomGenerator: RandomGenerator): 0 | 1 {
-  return randomGenerator() < 0.5 ? 0 : 1;
-}
-binaryRandomGenerator(Math.random);
-
-test("", function () {
-  const randomGenerator: RandomGenerator = () => 0.124;
-  expect(binaryRandomGenerator(randomGenerator)).toEqual(0);
-});
+const computeElapsedTimeInDays =
+  (today: DateTime) =>
+  (since: DateTime): number => {
+    return Math.round(today.diff(since).as("days"));
+  };
 
 test("", function () {
-  const randomGenerator: RandomGenerator = () => 0.66;
-  expect(binaryRandomGenerator(randomGenerator)).toEqual(1);
-});
-
-test("", function () {
-  const randomGenerator: RandomGenerator = () => 0.5;
-  expect(binaryRandomGenerator(randomGenerator)).toEqual(1);
+  const today = DateTime.fromObject({
+    year: 2022,
+    month: 4,
+    day: 7,
+  });
+  const yesterday = DateTime.fromObject({
+    year: 2022,
+    month: 4,
+    day: 6,
+  });
+  expect(computeElapsedTimeInDays(today)(yesterday)).toEqual(1);
 });

@@ -12,6 +12,7 @@
     "@babel/preset-env": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@types/jest": "^27.4.0",
+    "@types/luxon": "^2.3.1",
     "babel-jest": "^27.4.6",
     "jest": "^27.4.7",
     "jest-extended": "^2.0.0",
@@ -46,6 +47,7 @@
   "homepage": "https://github.com/mathieueveillard/js-kata-starter#readme",
   "dependencies": {
     "chalk": "^5.0.1",
-    "commander": "^9.1.0"
+    "commander": "^9.1.0",
+    "luxon": "^2.3.1"
   }
 }
