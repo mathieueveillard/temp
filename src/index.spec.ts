@@ -1,22 +1,21 @@
-interface State {
-  readonly count: number;
+type RandomGenerator = () => number; // between 0 and 1.
+
+function binaryRandomGenerator(randomGenerator: RandomGenerator): 0 | 1 {
+  return randomGenerator() < 0.5 ? 0 : 1;
 }
+binaryRandomGenerator(Math.random);
 
-function increment(state: State): State {
-  return {
-    ...state,
-    count: state.count + 1,
-  };
-}
+test("", function () {
+  const randomGenerator: RandomGenerator = () => 0.124;
+  expect(binaryRandomGenerator(randomGenerator)).toEqual(0);
+});
 
-test("Don't do this, const is a false promise!", function () {
-  // GIVEN
-  const state: State = { count: 0 };
+test("", function () {
+  const randomGenerator: RandomGenerator = () => 0.66;
+  expect(binaryRandomGenerator(randomGenerator)).toEqual(1);
+});
 
-  // WHEN
-  const actual = increment(state);
-
-  // THEN
-  expect(state.count).toEqual(0);
-  expect(actual.count).toEqual(1);
+test("", function () {
+  const randomGenerator: RandomGenerator = () => 0.5;
+  expect(binaryRandomGenerator(randomGenerator)).toEqual(1);
 });
