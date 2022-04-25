@@ -1,19 +1,13 @@
-test("Actual function call…", function () {
-  function spareMoney(amount: number): number {
-    wealth += amount;
-    return wealth;
-  }
-  let wealth = 1000;
-  const actual = spareMoney(300);
-  expect(actual).toEqual(1300);
-  expect(wealth).toEqual(1300);
-});
+// 1 1 + = 2
+// 1 1 1 + + = 1 2 + = 3
+// 1 1 1 + - = 1 2 - = -1  équivalent à 1 - (1 + 1) = -1
+// 1 10 100 + - = 1 110 - = -109
+// 1 -1 + = 0
+// Operators: binary operators (+, -, *, /), unary operator (NEGATE)
+// Operand: numbers
+// 1 NEGATE = -1
+// 1 1 NEGATE + = 1 -1 + = 0
 
-test("…replaced by its result", function () {
-  let wealth = 1000;
-  const actual = 1300;
-  expect(actual).toEqual(1300);
-  expect(wealth).toEqual(1000); // Not 1300 anymore!
-});
-
-// Pure = no side cause (scope, XHR, randomness, time) + no side effect (scope, XHR, logging)
+// rpn(1, 1, "NEGATE", "+") => 0
+// Curryfication
+// Pure functions (no side cause, no side effect) => immutability (const, spread operator)
