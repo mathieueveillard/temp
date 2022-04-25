@@ -1,21 +1,16 @@
-import { DateTime } from "luxon";
+const toPower = (power: number, n: number): number => {
+  // todo
+};
 
-const computeElapsedTimeInDays =
-  (today: DateTime) =>
-  (since: DateTime): number => {
-    return Math.round(today.diff(since).as("days"));
-  };
+// Application partielle
 
-test("", function () {
-  const today = DateTime.fromObject({
-    year: 2022,
-    month: 4,
-    day: 7,
-  });
-  const yesterday = DateTime.fromObject({
-    year: 2022,
-    month: 4,
-    day: 6,
-  });
-  expect(computeElapsedTimeInDays(today)(yesterday)).toEqual(1);
-});
+type Arity2Function<First, Second, Return> = (arg1: First, arg2: Second) => Return;
+
+const partial =
+  // (fn, arg1) => (arg2) => fn(arg1, arg2)
+
+    <First, Second, Return>(fn: Arity2Function<First, Second, Return>, arg1: First) =>
+    (arg2: Second): Return =>
+      fn(arg1, arg2);
+
+const toPower2 = partial(toPower, 2);
