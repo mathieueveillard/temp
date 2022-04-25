@@ -1,20 +1,31 @@
-test("What's the problem, according to you?", function () {
-  let step;
+type RandomGenerator = () => number;
 
-  function increment(value: number): number {
-    return value + step;
-  }
+function binaryRandomGenerator(generator: RandomGenerator): 0 | 1 {
+  return generator() < 0.5 ? 0 : 1;
+}
 
-  step = 1;
-  expect(increment(0)).toEqual(1);
-  step = 2;
-  expect(increment(0)).toEqual(2);
+binaryRandomGenerator(Math.random);
+
+test("", function () {
+  // GIVEN
+  const random = () => 0.3;
+
+  // WHEN
+  const actual = binaryRandomGenerator(random);
+
+  // THEN
+  const expected: number = 0;
+  expect(actual).toEqual(expected);
 });
 
-test("Different inputs, different outputs!", function () {
-  function increment(step: number, value: number): number {
-    return value + step;
-  }
-  expect(increment(1, 0)).toEqual(1);
-  expect(increment(2, 0)).toEqual(2);
+test("", function () {
+  // GIVEN
+  const random = () => 0.6;
+
+  // WHEN
+  const actual = binaryRandomGenerator(random);
+
+  // THEN
+  const expected: number = 1;
+  expect(actual).toEqual(expected);
 });
