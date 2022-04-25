@@ -1,16 +1,20 @@
-const toPower = (power: number, n: number): number => {
-  // todo
-};
+test("What's the problem, according to you?", function () {
+  let step;
 
-// Application partielle
+  function increment(value: number): number {
+    return value + step;
+  }
 
-type Arity2Function<First, Second, Return> = (arg1: First, arg2: Second) => Return;
+  step = 1;
+  expect(increment(0)).toEqual(1);
+  step = 2;
+  expect(increment(0)).toEqual(2);
+});
 
-const partial =
-  // (fn, arg1) => (arg2) => fn(arg1, arg2)
-
-    <First, Second, Return>(fn: Arity2Function<First, Second, Return>, arg1: First) =>
-    (arg2: Second): Return =>
-      fn(arg1, arg2);
-
-const toPower2 = partial(toPower, 2);
+test("Different inputs, different outputs!", function () {
+  function increment(step: number, value: number): number {
+    return value + step;
+  }
+  expect(increment(1, 0)).toEqual(1);
+  expect(increment(2, 0)).toEqual(2);
+});
