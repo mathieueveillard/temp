@@ -1,11 +1,7 @@
-import { DateTime } from "luxon";
-
-function computeElapsedTimeInDays(now: DateTime, since: DateTime): number {
-  return now.diff(since).as("days");
+let wealth = 0;
+function spareMoney(wealth: number, amount: number): number {
+  return wealth + amount;
 }
+spareMoney(wealth, 1000);
 
-test("This function can now be tested!", function () {
-  const now = DateTime.fromObject({ year: 2022, month: 4, day: 1 });
-  const since = DateTime.fromObject({ year: 2022, month: 4, day: 1 });
-  expect(computeElapsedTimeInDays(now, since)).toEqual(0);
-});
+// Pure = no side cause (scope, XHR, randomness, time) + no side effect (scope, XHR, logging)
