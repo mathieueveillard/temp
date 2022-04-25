@@ -1,31 +1,11 @@
-type RandomGenerator = () => number;
+import { DateTime } from "luxon";
 
-function binaryRandomGenerator(generator: RandomGenerator): 0 | 1 {
-  return generator() < 0.5 ? 0 : 1;
+function computeElapsedTimeInDays(now: DateTime, since: DateTime): number {
+  return now.diff(since).as("days");
 }
 
-binaryRandomGenerator(Math.random);
-
-test("", function () {
-  // GIVEN
-  const random = () => 0.3;
-
-  // WHEN
-  const actual = binaryRandomGenerator(random);
-
-  // THEN
-  const expected: number = 0;
-  expect(actual).toEqual(expected);
-});
-
-test("", function () {
-  // GIVEN
-  const random = () => 0.6;
-
-  // WHEN
-  const actual = binaryRandomGenerator(random);
-
-  // THEN
-  const expected: number = 1;
-  expect(actual).toEqual(expected);
+test("This function can now be tested!", function () {
+  const now = DateTime.fromObject({ year: 2022, month: 4, day: 1 });
+  const since = DateTime.fromObject({ year: 2022, month: 4, day: 1 });
+  expect(computeElapsedTimeInDays(now, since)).toEqual(0);
 });
